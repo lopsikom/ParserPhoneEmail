@@ -151,5 +151,90 @@ namespace ParserPhoneEmail.src
             }
             return result;
         }
+        public List<EmailContext> GetEmailsFromHtml()
+        {
+            var html = GetHtml(url);
+            if (string.IsNullOrEmpty(html))
+            {
+                Console.WriteLine("Не удалось загрузить страницу");
+                return null;
+            }
+            Console.WriteLine("Начало парсинга email-адресов");
+            var doc = new HtmlDocument();
+            doc.LoadHtml(html);
+
+            string emailPattern = @"[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}";
+            HashSet<string> uniqueEmails = new HashSet<string>();
+            HashSet<string> uniqueContext = new HashSet<string>();
+            Regex regex = new Regex(emailPattern, RegexOptions.IgnoreCase);
+            var result = new List<EmailContext>();
+            var TextNodes = doc.DocumentNode.Descendants()
+                .Where(node => !string.IsNullOrWhiteSpace(node.InnerText))
+                .ToList();
+
+            for (int i = 0; i < TextNodes.Count; i++)
+            {
+                var text = TextNodes[i].InnerText.Trim();
+                text = DeHtmlCoding(text);
+
+                var lines = text.Split(new[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
+                foreach (var line in lines)
+                {
+                    // Ищем email
+                    var match = regex.Match(line);
+
+                    if (match.Success)
+                    {
+                        if (uniqueEmails.Contains(match.Value))
+                        {
+                            break;
+                        }
+                        uniqueEmails.Add(match.Value);
+
+                        var fullcontext = new List<string>();
+                        for (int j = Math.Max(0, i - contextDepth); j < i; j++)
+                        {
+                            var _text = TextNodes[j].InnerText.Trim();
+                            _text = DeHtmlCoding(_text);
+                            if (IsValidText(_text, uniqueContext))
+                            {
+                                continue;
+                            }
+                            fullcontext.Add(_text);
+                        }
+
+                        if (text.Split(new[] { ' ', '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries).Length > stringLenght)
+                        {
+                            result.Add(new EmailContext
+                            {
+                                Email = match.Value,
+                                context = new List<string>()
+                            });
+                            continue;
+                        }
+
+                        for (int j = i + 1; j <= Math.Min(TextNodes.Count - 1, i + contextDepth); j++)
+                        {
+                            var _text = TextNodes[j].InnerText.Trim();
+                            _text = DeHtmlCoding(_text);
+                            if (IsValidText(_text, uniqueContext))
+                            {
+                                continue;
+                            }
+                            fullcontext.Add(_text);
+                        }
+
+                        result.Add(new EmailContext
+                        {
+                            Email = match.Value,
+                            context = fullcontext
+                        });
+                    }
+                }
+            }
+            return result;
+        }
     }
+
+
 }
