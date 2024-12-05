@@ -15,7 +15,7 @@ namespace ParserPhoneEmail.src
         private string url { get; set; }
         private int contextDepth { get; set; }
         private int stringLenght { get; set; }  
-        public HtmlParser(string _url, int _contextDepth, int _stringLenght = 10000) { 
+        public HtmlParser(string _url, int _contextDepth = 1, int _stringLenght = 100) { 
             url = _url;
             contextDepth = _contextDepth;
             stringLenght = _stringLenght;
@@ -67,8 +67,7 @@ namespace ParserPhoneEmail.src
             Console.WriteLine("Начало");
             var doc = new HtmlDocument();
             doc.LoadHtml(html);
-
-            string phonePattern = @"(?:тел\.?:?\s?\(?\d{3,4}\)?\s?\d{1,3}[-\s]?\d{2}[-\s]?\d{2}[-\s]?\d{2}|телефон\s?:?\s?\(?\d{3}-\d{1}\)?\s?\d{2}-\d{2}-\d{2}|тел\.?/факс\s?:?\s?\(?\d{3,4}\)?\s?\d{1,3}[-\s]?\d{2}[-\s]?\d{2}[-\s]?\d{2}|(?:\+7\s?\(?\d{3,4}\)?\s?\d{2,3}[-\s]?\d{2}[-\s]?\d{2}))";
+            string phonePattern = @"(?:тел\.?:?\s?\(?\d{3,4}\)?\s?\d{1,3}[-\s/]?\d{2}[-\s]?\d{2}[-\s]?\d{2}|телефон\s?:?\s?\(?\d{3}-\d{1}\)?\s?\d{2}-\d{2}-\d{2}|тел\.?/факс\s?:?\s?\(?\d{3,4}\)?\s?\d{1,3}[-\s/]?\d{2}[-\s]?\d{2}[-\s]?\d{2}|(?:\+7\s?\(?\d{3,4}\)?\s?\d{2,4}[-\s/]?\d{2,3}[-\s]?\d{2,3}))";
 
             HashSet<string> uniqueText = new HashSet<string>();
             HashSet<string> uniqueContext = new HashSet<string>();
