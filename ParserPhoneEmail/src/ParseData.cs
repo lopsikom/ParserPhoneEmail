@@ -13,22 +13,21 @@ namespace ParserPhoneEmail.src
         private string URL {  get; set; }
         private List<PhoneContext> PhoneNumbers { get; set; }
         private List<EmailContext> Emails { get; set; }
-        public ParseData(string compnanyname, string inn, string url, int contextDepth = 1, int stringLenght = 100) {
+        public ParseData(string compnanyname, string inn, string url) {
             CompanyName = compnanyname;
             INN = inn;
             URL = url;
-            var par = new HtmlParser(url, contextDepth, stringLenght);
-            PhoneNumbers = par.GetPhoneFromHtml();
-            Emails = par.GetEmailsFromHtml();
+            PhoneNumbers = new List<PhoneContext>();
+            Emails = new List<EmailContext>();
         }
 
-        public void AddEmail(EmailContext email)
+        public void AddEmail(List<EmailContext> email)
         {
-            Emails.Add(email);
+            Emails = email;
         }
-        public void AddPhone(PhoneContext phone)
+        public void AddPhone(List<PhoneContext> phone)
         {
-            PhoneNumbers.Add(phone);
+            PhoneNumbers = phone;
         }
         public List<PhoneContext> GetAllPhoneNumbers()
         {

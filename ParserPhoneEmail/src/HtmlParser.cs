@@ -14,11 +14,13 @@ namespace ParserPhoneEmail.src
     {
         private string url { get; set; }
         private int contextDepth { get; set; }
-        private int stringLenght { get; set; }  
+        private int stringLenght { get; set; } 
+        private string htmlsite { get; set; }
         public HtmlParser(string _url, int _contextDepth = 1, int _stringLenght = 100) { 
             url = _url;
             contextDepth = _contextDepth;
             stringLenght = _stringLenght;
+            htmlsite = GetHtml(url);
         }
         private static string GetHtml(string url)
         {
@@ -58,7 +60,7 @@ namespace ParserPhoneEmail.src
         }
         public List<PhoneContext> GetPhoneFromHtml()
         {
-            var html = GetHtml(url);
+            var html = htmlsite;
             if (string.IsNullOrEmpty(html))
             {
                 Console.WriteLine("Не удалось загрузить страницу");
@@ -152,7 +154,7 @@ namespace ParserPhoneEmail.src
         }
         public List<EmailContext> GetEmailsFromHtml()
         {
-            var html = GetHtml(url);
+            var html = htmlsite;
             if (string.IsNullOrEmpty(html))
             {
                 Console.WriteLine("Не удалось загрузить страницу");

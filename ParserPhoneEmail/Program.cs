@@ -9,37 +9,38 @@ namespace ParserPhoneEmail
         static void Main(string[] args)
         {
             string filePath = "C:\\Users\\lopsik\\source\\repos\\ParserPhoneEmail\\ParserPhoneEmail\\test.xlsx";
-
-            // Убедитесь, что лицензия EPPlus включена (для версии 5 и выше)
-            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
-
-            using (var package = new ExcelPackage(new FileInfo(filePath)))
+            var excel = new ExcelClass(filePath);
+            var Data = LinkPickerClass.LinksPick(excel.GetExcelData(), 2, 50);
+            Console.WriteLine("Вывод");
+            excel.SaveExcelData(Data);
+            foreach (var data in Data)
             {
-                // Открываем первый лист Excel
-                ExcelWorksheet worksheet = package.Workbook.Worksheets[0];
-
-                // Узнаем количество строк и столбцов
-                int rows = worksheet.Dimension.Rows;
-                int cols = worksheet.Dimension.Columns;
-                Console.WriteLine("Назване компаний");
-                for (int i = 2; i < cols; i++)
+                var name = data.GetName();
+                var inn = data.GetINN();
+                var url = data.GetURL();
+                var listphone = data.GetAllPhoneNumbers();
+                var listemail = data.GetAllEmails();
+                Console.WriteLine($"\nКомпания {name}\n");
+                foreach (var phone in listphone)
                 {
-                    var value = worksheet.Cells[i, 1].Text;
-                    Console.WriteLine(value);
+                    Console.WriteLine($"Номер телефона: \n{phone.Phone}");
+                    Console.WriteLine("Контекст");
+                    foreach (var context in phone.context)
+                    {
+                        Console.WriteLine(context);
+                    }
                 }
-                Console.WriteLine("Назване компаний");
-                for (int i = 2; i < cols; i++)
+                foreach (var email in listemail)
                 {
-                    var value = worksheet.Cells[i, 2].Text;
-                    Console.WriteLine(value);
-                }
-                Console.WriteLine("Назване компаний");
-                for (int i = 2; i < cols; i++)
-                {
-                    var value = worksheet.Cells[i, 3].Text;
-                    Console.WriteLine(value);
+                    Console.WriteLine($"почта: \n{email.Email}");
+                    Console.WriteLine("Контекст");
+                    foreach (var context in email.context)
+                    {
+                        Console.WriteLine(context);
+                    }
                 }
             }
+
         }
         //var UrlLis = new List<string>() {
         //    "http://erkc.vseversk.ru/about_us",

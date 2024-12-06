@@ -9,16 +9,17 @@ namespace ParserPhoneEmail.src
 {
     public static class LinkPickerClass
     {
-        public static List<ParseData> LinksPick(List<string> Urls, int contextDepth = 1, int stringLenght = 100)
+        public static List<ParseData> LinksPick(List<ParseData> Urls, int contextDepth = 1, int stringLenght = 100)
         {
             Console.WriteLine($"Количество логических ядер: {Environment.ProcessorCount}");
-            var DataList = new ConcurrentBag<ParseData>();
+            //var DataList = new ConcurrentBag<ParseData>();
             Parallel.ForEach(Urls, Url =>
             {
-                var Data = new ParseData(Url, contextDepth, stringLenght);
-                DataList.Add(Data);
+                var par = new HtmlParser(Url.GetURL(), contextDepth, stringLenght);
+                Url.AddPhone(par.GetPhoneFromHtml());
+                Url.AddEmail(par.GetEmailsFromHtml());
             });
-            return DataList.ToList();
+            return Urls;
         }
     }
 }
