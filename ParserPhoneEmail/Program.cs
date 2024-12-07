@@ -1,44 +1,25 @@
 ﻿using OfficeOpenXml;
 using ParserPhoneEmail.src;
 using System.Text.RegularExpressions;
+using System;
+using System.Windows.Forms;
+using Spectre.Console;
 
 namespace ParserPhoneEmail
 {
     internal class Program
     {
+        [STAThread]
         static void Main(string[] args)
         {
-            string filePath = "C:\\Users\\lopsik\\source\\repos\\ParserPhoneEmail\\ParserPhoneEmail\\test.xlsx";
-            var excel = new ExcelClass(filePath);
-            var Data = LinkPickerClass.LinksPick(excel.GetExcelData(), 2, 50);
-            Console.WriteLine("Вывод");
-            excel.SaveExcelData(Data);
-            foreach (var data in Data)
+
+            Application.EnableVisualStyles();
+            //Application.SetCompatibleTextRenderingDefault(false);
+            var parametrs = new ParametrClass();
+            while(true)
             {
-                var name = data.GetName();
-                var inn = data.GetINN();
-                var url = data.GetURL();
-                var listphone = data.GetAllPhoneNumbers();
-                var listemail = data.GetAllEmails();
-                Console.WriteLine($"\nКомпания {name}\n");
-                foreach (var phone in listphone)
-                {
-                    Console.WriteLine($"Номер телефона: \n{phone.Phone}");
-                    Console.WriteLine("Контекст");
-                    foreach (var context in phone.context)
-                    {
-                        Console.WriteLine(context);
-                    }
-                }
-                foreach (var email in listemail)
-                {
-                    Console.WriteLine($"почта: \n{email.Email}");
-                    Console.WriteLine("Контекст");
-                    foreach (var context in email.context)
-                    {
-                        Console.WriteLine(context);
-                    }
-                }
+                AnsiConsole.Clear();
+                SelectCommandClass.SelectCommand(new List<ICommands> { new ParametrCommand(), new StartParsingCommand() }, parametrs);
             }
 
         }

@@ -2,7 +2,8 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net8.0-windows</TargetFramework>
+	<UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
@@ -12,6 +13,12 @@
     <PackageReference Include="HtmlAgilityPack" Version="1.11.71" />
     <PackageReference Include="Spectre.Console" Version="0.49.1" />
     <PackageReference Include="Spectre.Console.Cli" Version="0.49.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="System.Windows.Forms">
+      <HintPath>..\..\..\..\..\..\Program Files\Microsoft Visual Studio\2022\Community\dotnet\net8.0\runtime\shared\Microsoft.WindowsDesktop.App\8.0.8\System.Windows.Forms.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>
