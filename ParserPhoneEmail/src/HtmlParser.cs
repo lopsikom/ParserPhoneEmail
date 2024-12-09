@@ -1,4 +1,5 @@
 ﻿using HtmlAgilityPack;
+using ParserPhoneEmail.src.DataClass;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -67,7 +68,7 @@ namespace ParserPhoneEmail.src
                 Console.WriteLine("Не удалось загрузить страницу");
                 return null;
             }
-            Console.WriteLine("Начало");
+            Console.WriteLine("Начало поиска номера");
             var doc = new HtmlDocument();
             doc.LoadHtml(html);
             string phonePattern = @"(?:тел\.?:?\s?\(?\d{3,4}\)?\s?\d{1,3}[-\s/]?\d{2}[-\s]?\d{2}[-\s]?\d{2}|телефон\s?:?\s?\(?\d{3}-\d{1}\)?\s?\d{2}-\d{2}-\d{2}|тел\.?/факс\s?:?\s?\(?\d{3,4}\)?\s?\d{1,3}[-\s/]?\d{2}[-\s]?\d{2}[-\s]?\d{2}|(?:\+7\s?\(?\d{3,4}\)?\s?\d{2,4}[-\s/]?\d{2,3}[-\s]?\d{2,3}))";
@@ -84,16 +85,13 @@ namespace ParserPhoneEmail.src
                 var text = TextNodes[i].InnerText.Trim();
 
                 text = DeHtmlCoding(text);
-                //Console.WriteLine("LINES" + text);
                 var lines = text.Split(new[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
                 foreach (var line in lines)
                 {
-                    // Ищем номер телефона
                     var match = regex.Match(line);
 
                     if (match.Success)
                     {
-                        // Выводим только номер телефона
                         
                         if (uniqueText.Contains(match.Value))
                         {
@@ -101,10 +99,7 @@ namespace ParserPhoneEmail.src
                         }
                         if (match.Success)
                         {
-                            //Console.WriteLine("Найден номер телефона: " + match.Value);
-                            //Console.WriteLine("LINES" + text);
                             uniqueText.Add(match.Value);
-                            //Console.WriteLine(match.Value);
                             var fullcontext = new List<string>();
                             for (int j = Math.Max(0, i - contextDepth); j < i; j++)
                             {
@@ -161,7 +156,7 @@ namespace ParserPhoneEmail.src
                 Console.WriteLine("Не удалось загрузить страницу");
                 return null;
             }
-            Console.WriteLine("Начало парсинга email-адресов");
+            Console.WriteLine("Начало поиска email-адресов");
             var doc = new HtmlDocument();
             doc.LoadHtml(html);
 
@@ -182,7 +177,6 @@ namespace ParserPhoneEmail.src
                 var lines = text.Split(new[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
                 foreach (var line in lines)
                 {
-                    // Ищем email
                     var match = regex.Match(line);
 
                     if (match.Success)

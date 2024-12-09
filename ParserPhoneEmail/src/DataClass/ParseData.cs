@@ -4,16 +4,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ParserPhoneEmail.src
+namespace ParserPhoneEmail.src.DataClass
 {
     public class ParseData
     {
-        private string CompanyName {  get; set; }
-        private string INN {  get; set; }
-        private string URL {  get; set; }
+        private string CompanyName { get; set; }
+        private string INN { get; set; }
+        private string URL { get; set; }
         private List<PhoneContext> PhoneNumbers { get; set; }
         private List<EmailContext> Emails { get; set; }
-        public ParseData(string compnanyname, string inn, string url) {
+        public ParseData(string compnanyname, string inn, string url)
+        {
             CompanyName = compnanyname;
             INN = inn;
             URL = url;
@@ -33,7 +34,7 @@ namespace ParserPhoneEmail.src
         {
             return PhoneNumbers;
         }
-        public List <EmailContext> GetAllEmails()
+        public List<EmailContext> GetAllEmails()
         {
             return Emails;
         }

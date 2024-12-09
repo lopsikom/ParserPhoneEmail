@@ -4,6 +4,9 @@ using System.Text.RegularExpressions;
 using System;
 using System.Windows.Forms;
 using Spectre.Console;
+using ParserPhoneEmail.src.Interfaces;
+using ParserPhoneEmail.src.DataClass;
+using ParserPhoneEmail.src.Commands;
 
 namespace ParserPhoneEmail
 {
@@ -14,48 +17,16 @@ namespace ParserPhoneEmail
         {
 
             Application.EnableVisualStyles();
-            //Application.SetCompatibleTextRenderingDefault(false);
             var parametrs = new ParametrClass();
             while(true)
             {
                 AnsiConsole.Clear();
-                SelectCommandClass.SelectCommand(new List<ICommands> { new ParametrCommand(), new StartParsingCommand() }, parametrs);
+                SelectCommandClass.SelectCommand(new List<ICommands> { new ParametrCommand(), 
+                    new StartParsingCommand() }, 
+                    parametrs);
             }
 
         }
-        //var UrlLis = new List<string>() {
-        //    "http://erkc.vseversk.ru/about_us",
-        //    "https://ekb.hevelsolar.com/contacts/",
-        //    "https://www.himprom.com/contacts/",
-        //    "https://www.kolesnica21.ru/index.php/2014-02-12-10-33-43/2014-02-12-10-34-11",
-        //    "https://теплицырегионов.рф/contacts"
-        //};
-        //var Data = LinkPickerClass.LinksPick(UrlLis, 2);
-        //Console.WriteLine("Вывод");
-        //foreach (var data in Data)
-        //{
-        //    var url = data.GetURL();
-        //    var listphone = data.GetAllPhoneNumbers();
-        //    var listemail = data.GetAllEmails();
-        //    Console.WriteLine($"\nСсылка {url}\n");
-        //    foreach (var phone in listphone)
-        //    {
-        //        Console.WriteLine($"Номер телефона: \n{phone.Phone}");
-        //        Console.WriteLine("Контекст");
-        //        foreach (var context in phone.context)
-        //        {
-        //            Console.WriteLine(context);
-        //        }
-        //    }
-        //    foreach (var email in listemail)
-        //    {
-        //        Console.WriteLine($"почта: \n{email.Email}");
-        //        Console.WriteLine("Контекст");
-        //        foreach (var context in email.context)
-        //        {
-        //            Console.WriteLine(context);
-        //        }
-        //    }
-        //}  
+       
     }
 }

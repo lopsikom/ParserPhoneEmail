@@ -1,4 +1,5 @@
 ﻿using OfficeOpenXml;
+using ParserPhoneEmail.src.DataClass;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -59,7 +60,7 @@ namespace ParserPhoneEmail.src
                         : data.GetAllEmails().Count;
                     for(int i = 0; i < count; i++)
                     {
-                        Console.WriteLine(phonelist.Count);
+                        //Console.WriteLine(phonelist.Count);
                         countrow++;
                         if(phonelist.Count > i)
                         {

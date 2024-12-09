@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ParserPhoneEmail.src.DataClass;
+using ParserPhoneEmail.src.Interfaces;
 
-namespace ParserPhoneEmail.src
+namespace ParserPhoneEmail.src.Commands
 {
     public class AddContexntLenghtCommand : ICommands
     {

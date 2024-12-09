@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ParserPhoneEmail.src.DataClass;
 
 namespace ParserPhoneEmail.src
 {
@@ -11,7 +12,7 @@ namespace ParserPhoneEmail.src
     {
         public static List<ParseData> LinksPick(List<ParseData> Urls, int contextDepth = 1, int stringLenght = 100)
         {
-            Console.WriteLine($"Количество логических ядер: {Environment.ProcessorCount}");
+            //Console.WriteLine($"Количество логических ядер: {Environment.ProcessorCount}");
             //var DataList = new ConcurrentBag<ParseData>();
             Parallel.ForEach(Urls, Url =>
             {
